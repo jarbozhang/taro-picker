@@ -2,7 +2,7 @@
 
 由于Taro(源于微信)中的picker之支持date/time等的通用选择，而像“今天 10点 30分”这样的更加方便选择的格式需要自行定义，故本项目基于pickerView、pickerViewColumn来自定义了一个选择器用于日期和时间在用一个组件中选择完成。
 
-<img src="https://pan.hongtu.me/img/f165697e86d1ccadf9307cc7d8c062a6.png" />
+<img src="https://pan.hongtu.me/img/19ef0a3eb807c61d78532faa35c828ba.png" />
 
 ## 简介
 
