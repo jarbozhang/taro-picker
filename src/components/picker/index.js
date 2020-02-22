@@ -35,9 +35,9 @@ class Index extends Component {
   }
 
   componentDidMount = () => {
-    const {initial} = this.props
+    const { initial } = this.props
     const now = moment()
-    initial && initial(now.clone().add(10, 'minutes').add(-now.get('minute')%10, 'minutes'))
+    initial && initial(now.clone().add(10, 'minutes').add(-now.get('minute') % 10, 'minutes'))
   }
 
   onChange = e => {
@@ -46,6 +46,7 @@ class Index extends Component {
   }
 
   onClickConfirm = () => {
+    const { onConfirm } = this.props
     const { days, day, hours, hour, minutes, minute } = this.state
     const dateMap = [moment().format('M月D日'), moment().clone().add(1, 'days').format('M月D日')]
     const selectDate = day < 2 ? dateMap[day] : days[day]
@@ -53,11 +54,12 @@ class Index extends Component {
     if (moment().get('month') === 11 && moment(selectDate, 'M月').get('month') === 0) {
       selectTime = selectTime.add(1, 'years')
     }
-    this.props.onConfirm(selectTime)
+    onConfirm && onConfirm(selectTime)
   }
 
   onClickCancel = () => {
-    this.props.onCancel()
+    const { onCancel } = this.props
+    onCancel && onCancel()
   }
 
   render() {
