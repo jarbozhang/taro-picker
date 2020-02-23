@@ -37,7 +37,7 @@ class Index extends Component {
   componentDidMount = () => {
     const { initial } = this.props
     const now = moment()
-    initial && initial(now.clone().add(10, 'minutes').add(-now.get('minute') % 10, 'minutes'))
+    initial && initial(now.clone().add(10, 'minutes').add(-now.get('minute') % 10, 'minutes').add(-now.get('seconds'), 'seconds'))
   }
 
   onChange = e => {
