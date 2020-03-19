@@ -1,12 +1,12 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
-import moment from 'moment-mini'
+import dayjs from 'dayjs'
 import './index.scss'
 
 class Index extends Component {
   constructor() {
     super(...arguments)
-    const now = moment()
+    const now = dayjs()
     const days = ['今天', '明天']
     const thisMonth = [...Array(now.daysInMonth()).keys()].filter(key => key >= now.get('date'))
     thisMonth.map(key => days.push(`${now.get('month') + 1}月${key}日`))
@@ -36,7 +36,7 @@ class Index extends Component {
 
   componentDidMount = () => {
     const { initial } = this.props
-    const now = moment()
+    const now = dayjs()
     initial && initial(now.clone().add(10, 'minutes').add(-now.get('minute') % 10, 'minutes').add(-now.get('seconds'), 'seconds'))
   }
 
@@ -48,10 +48,10 @@ class Index extends Component {
   onClickConfirm = () => {
     const { onConfirm } = this.props
     const { days, day, hours, hour, minutes, minute } = this.state
-    const dateMap = [moment().format('M月D日'), moment().clone().add(1, 'days').format('M月D日')]
+    const dateMap = [dayjs().format('M月D日'), dayjs().clone().add(1, 'days').format('M月D日')]
     const selectDate = day < 2 ? dateMap[day] : days[day]
-    let selectTime = moment(`${selectDate}-${hours[hour]}-${minutes[minute]}`, 'M月D日-HH-mm')
-    if (moment().get('month') === 11 && moment(selectDate, 'M月').get('month') === 0) {
+    let selectTime = dayjs(`${selectDate}-${hours[hour]}-${minutes[minute]}`, 'M月D日-HH-mm')
+    if (dayjs().get('month') === 11 && dayjs(selectDate, 'M月').get('month') === 0) {
       selectTime = selectTime.add(1, 'years')
     }
     onConfirm && onConfirm(selectTime)

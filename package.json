@@ -43,7 +43,7 @@
     "@tarojs/taro-tt": "2.0.2",
     "@tarojs/taro-weapp": "2.0.2",
     "babel-runtime": "^6.26.0",
-    "moment-mini": "^2.24.0",
+    "dayjs": "^1.8.23",
     "nerv-devtools": "^1.5.5",
     "nervjs": "^1.5.5",
     "redux": "^4.0.0",
