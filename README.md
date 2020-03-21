@@ -10,7 +10,9 @@
 
 大多数的其他选择器没有调整好类似微信的确认和取消按钮，为了达到基本和微信的选择器体验一致，本项目也实现了确认和取消的按钮，并通过props和父组件交互
 
-组件利用了[moment](http://momentjs.cn/)这个日期处理类库的部分特性来让代码更加简洁和稳定，为了保持小程序包的体积尽量小，组件import了moment-mini这个npm包，该组件与父组件交互主要传输的是moment格式的数据，故再父组件中请也引入moment-mini包来进行解析和操作，如果有特殊需要，您可以使用moment的unix()方法或者format()方法来得到相应格式的数据。
+最新的版本组件利用了day.js来代替moment-mini，得益于day.js，将原来的75KB大小的日期处理库降为了2KB的大小。
+~~组件利用了[moment](http://momentjs.cn/)这个日期处理类库的部分特性来让代码更加简洁和稳定，为了保持小程序包的体积尽量小，组件import了moment-mini这个npm包，~~
+该组件与父组件交互主要传输的是~~moment~~dayjs格式的数据，故再父组件中请也引入~~moment-mini~~dayjs包来进行解析和操作，如果有特殊需要，您可以使用~~moment~~dayjs的unix()方法或者format()方法来得到相应格式的数据。
 
 ## API
 
