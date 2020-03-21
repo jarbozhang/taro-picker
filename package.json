@@ -1,5 +1,5 @@
 {
-  "name": "taroDateTimePicker",
+  "name": "taro-datetime-picker",
   "version": "1.0.0",
   "private": true,
   "description": "一款基于 Taro 框架开发的日期时间选择组件，解决日期和时间同时选择的问题",

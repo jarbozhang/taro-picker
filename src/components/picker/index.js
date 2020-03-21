@@ -1,60 +1,47 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
-import dayjs from 'dayjs'
+import format from './format'
 import './index.scss'
+
+import dayjs from 'dayjs'
+import 'dayjs/locale/zh-cn'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+dayjs.extend(customParseFormat)
 
 class Index extends Component {
   constructor() {
     super(...arguments)
-    const now = dayjs()
-    const days = ['今天', '明天']
-    const thisMonth = [...Array(now.daysInMonth()).keys()].filter(key => key >= now.get('date'))
-    thisMonth.map(key => days.push(`${now.get('month') + 1}月${key}日`))
-    const nextMonth = [
-      ...Array(now.clone().add(1, 'months').daysInMonth()).keys()
-    ].filter(key => key < 29 - now.daysInMonth() + now.get('date'))
-    nextMonth.map(key => days.push(`${now.clone().add(1, 'months').get('month') + 1}月${key + 1}日`))
-
-    const hours = [...Array(24).keys()]
-    const minutes = [...Array(60).keys()].filter(key => key % 10 === 0)
-    const initial = {
-      day: (now.get('minute') > 50 && now.get('hour') === 23) ? 1 : 0,
-      hour: now.get('minute') > 50 ? now.clone().add(1, 'hours').get('hour') : now.get('hour'),
-      minute: now.get('minute') > 50 ? 0 : ~~(now.get('minute') / 10) + 1
-    }
-
     this.state = {
-      days,
-      day: initial.day,
-      hours,
-      hour: initial.hour,
-      minutes,
-      minute: initial.minute,
-      value: [...Object.values(initial)]
+      value: [],
+      source: { value: [], item: [] },
+      dateTime: [],
     }
   }
 
-  componentDidMount = () => {
-    const { initial } = this.props
-    const now = dayjs()
-    initial && initial(now.clone().add(10, 'minutes').add(-now.get('minute') % 10, 'minutes').add(-now.get('seconds'), 'seconds'))
+  componentWillMount = () => {
+    const { dateTime } = this.props
+    const source = dateTime && format(dateTime, dayjs()) || { value: [], item: [] }
+    this.setState({ source, dateTime })
   }
 
   onChange = e => {
-    const [day, hour, minute] = e.detail.value
-    this.setState({ day, hour, minute })
+    this.setState({ value: e.detail.value })
   }
 
   onClickConfirm = () => {
     const { onConfirm } = this.props
-    const { days, day, hours, hour, minutes, minute } = this.state
-    const dateMap = [dayjs().format('M月D日'), dayjs().clone().add(1, 'days').format('M月D日')]
-    const selectDate = day < 2 ? dateMap[day] : days[day]
-    let selectTime = dayjs(`${selectDate}-${hours[hour]}-${minutes[minute]}`, 'M月D日-HH-mm')
-    if (dayjs().get('month') === 11 && dayjs(selectDate, 'M月').get('month') === 0) {
-      selectTime = selectTime.add(1, 'years')
+    let { value, source, dateTime } = this.state
+    console.log(value, source, dateTime)
+    if (value.length === 0) value = [...source.value]
+    let time = '', token = ''
+    for (let i = 0; i < dateTime.length; i++) {
+      const select = source.item[i][value[i]]
+      time += (select === '今天' ? dayjs().format('M月D日') : select) + '-'
+      token += (dateTime[i].format || this.getToken(dateTime[i].mode)) + '-'
     }
-    onConfirm && onConfirm(selectTime)
+    console.log(time, token)
+    console.log(dayjs(time, token).format())
+    onConfirm && onConfirm(dayjs(time, token))
   }
 
   onClickCancel = () => {
@@ -62,29 +49,34 @@ class Index extends Component {
     onCancel && onCancel()
   }
 
+  getToken = mode => {
+    return {
+      'year': 'YYYY年',
+      'month': 'M月',
+      'day': 'D日',
+      'hour': 'H时',
+      'minute': 'm分',
+      'second': 's秒',
+    }[mode]
+  }
+
   render() {
-    const { datetime = this.state.value } = this.props
+    const { source } = this.state
     return (
       <View className='picker-page'>
         <PickerView
           indicator-style='height: 50px;'
-          value={datetime}
+          value={source.value}
           onChange={this.onChange}>
-          <PickerViewColumn>
-            {this.state.days.map(item => {
-              return <View key={'day:' + item}>{item}</View>
-            })}
-          </PickerViewColumn>
-          <PickerViewColumn>
-            {this.state.hours.map(item => {
-              return <View key={'hour:' + item}>{item}时</View>
-            })}
-          </PickerViewColumn>
-          <PickerViewColumn>
-            {this.state.minutes.map(item => {
-              return <View key={'minute:' + item}>{item}分</View>
-            })}
-          </PickerViewColumn>
+          {source.item.map((item, index) => {
+            return (
+              <PickerViewColumn key={index}>
+                {item.map(time => {
+                  return <View key={time}>{time}</View>
+                })}
+              </PickerViewColumn>
+            )
+          })}
         </PickerView>
         <View className='handle'>
           <Button className='cancel' type='default' size='default' onClick={this.onClickCancel}>取消</Button>
