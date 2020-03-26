@@ -1,11 +1,11 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View } from '@tarojs/components'
-import format from './format'
-import './index.scss'
-
+import { View, PickerView, PickerViewColumn, Button } from '@tarojs/components'
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
+import format from './format'
+import './index.scss'
+
 dayjs.extend(customParseFormat)
 
 class Index extends Component {
@@ -14,14 +14,14 @@ class Index extends Component {
     this.state = {
       value: [],
       source: { value: [], item: [] },
-      dateTime: [],
+      selected: [],
     }
   }
 
   componentWillMount = () => {
     const { dateTime } = this.props
     const source = dateTime && format(dateTime, dayjs()) || { value: [], item: [] }
-    this.setState({ source, dateTime })
+    this.setState({ source, selected: dateTime })
   }
 
   onChange = e => {
@@ -30,7 +30,7 @@ class Index extends Component {
 
   onClickConfirm = () => {
     const { onConfirm } = this.props
-    let { value, source, dateTime } = this.state
+    let { value, source, selected:dateTime } = this.state
     console.log(value, source, dateTime)
     if (value.length === 0) value = [...source.value]
     let time = '', token = ''
@@ -67,7 +67,8 @@ class Index extends Component {
         <PickerView
           indicator-style='height: 50px;'
           value={source.value}
-          onChange={this.onChange}>
+          onChange={this.onChange}
+        >
           {source.item.map((item, index) => {
             return (
               <PickerViewColumn key={index}>

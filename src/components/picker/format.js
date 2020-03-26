@@ -10,8 +10,8 @@ const format = (dateTime, dayjs) => {
       const fields = item.fields || 1
       const number = { hour: 24, minute: 60, second: 60, month: 12 }[key]
       res.item.push([...Array(number).keys()]
-        .filter(key => key % fields === 0)
-        .filter(key => item.selected && item.selected.includes(key))
+        .filter(index => index % fields === 0)
+        .filter(index => item.selected && item.selected.includes(index))
         .map(index => (key === 'month' ? index + 1 : index) + item.unit))
       res.value.push(item.selected ? 0 : ~~(now.get(item.mode) / fields))
     } else if (['year', 'day'].includes(key)) {
