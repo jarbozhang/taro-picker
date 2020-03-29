@@ -24,14 +24,26 @@ class Index extends Component {
     this.setState({ source, selected: dateTime })
   }
 
+  componentDidMount = () => {
+    this.onInitial()
+  }
+
   onChange = e => {
     this.setState({ value: e.detail.value })
   }
 
-  onClickConfirm = () => {
-    const { onConfirm } = this.props
+  onInitial = () => {
+    const { onInitial, mode } = this.props
+    onInitial && onInitial(this.getDayjs(mode))
+  }
+
+  onConfirm = () => {
+    const { onConfirm, mode } = this.props
+    onConfirm && onConfirm(this.getDayjs(mode))
+  }
+
+  getDayjs = (mode = 'unix') => {
     let { value, source, selected: dateTime } = this.state
-    console.log(value, source, dateTime)
     if (value.length === 0) value = [...source.value]
     let time = '', token = ''
     for (let i = 0; i < dateTime.length; i++) {
@@ -39,12 +51,10 @@ class Index extends Component {
       time += (select === '今天' ? dayjs().format('M月D日') : select) + '-'
       token += (dateTime[i].format || this.getToken(dateTime[i].mode)) + '-'
     }
-    console.log(time, token)
-    console.log(dayjs(time, token).format())
-    onConfirm && onConfirm(dayjs(time, token))
+    return dayjs(time, token)[mode]()
   }
 
-  onClickCancel = () => {
+  onCancel = () => {
     const { onCancel } = this.props
     onCancel && onCancel()
   }
@@ -80,8 +90,8 @@ class Index extends Component {
           })}
         </PickerView>
         <View className='handle'>
-          <Button className='cancel' type='default' size='default' onClick={this.onClickCancel}>取消</Button>
-          <Button className='confirm' type='primary' size='default' onClick={this.onClickConfirm}>确定</Button>
+          <Button className='cancel' type='default' size='default' onClick={this.onCancel}>取消</Button>
+          <Button className='confirm' type='primary' size='default' onClick={this.onConfirm}>确定</Button>
         </View>
       </View>
     )
