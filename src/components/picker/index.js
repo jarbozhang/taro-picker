@@ -30,7 +30,7 @@ class Index extends Component {
 
   onClickConfirm = () => {
     const { onConfirm } = this.props
-    let { value, source, selected:dateTime } = this.state
+    let { value, source, selected: dateTime } = this.state
     console.log(value, source, dateTime)
     if (value.length === 0) value = [...source.value]
     let time = '', token = ''
