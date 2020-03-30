@@ -1,4 +1,4 @@
-# 基于Taro实现日期和时间在一个组件中完成选择
+# 基于Taro实现的时间选择器
 
 由于小程序中的picker只支持date/time等类型的通用选择，而像“今天 10点 30分”这样的更加方便选择的格式需要自行定义，故本项目基于pickerView、pickerViewColumn来自定义了一个选择器用于日期和时间在用一个组件中选择完成。项目使用taro框架，也可实现类似微信提醒的时间选择器
 
@@ -11,9 +11,9 @@
 
 大多数的其他选择器没有调整好类似微信的确认和取消按钮，为了达到基本和微信的选择器体验一致，本项目也实现了确认和取消的按钮，并通过props和父组件交互
 
-最新的版本组件利用了day.js来代替moment-mini，得益于day.js，将原来的75KB大小的日期处理库降为了2KB的大小。
+最新的版本组件利用了[day.js](https://day.js.org/zh-CN/)来代替moment-mini，得益于day.js，将原来的75KB大小的日期处理库降为了2KB的大小。
 ~~组件利用了[moment](http://momentjs.cn/)这个日期处理类库的部分特性来让代码更加简洁和稳定，为了保持小程序包的体积尽量小，组件import了moment-mini这个npm包，~~
-该组件与父组件交互主要传输的是~~moment~~dayjs格式的数据，故再父组件中请也引入~~moment-mini~~dayjs包来进行解析和操作，如果有特殊需要，您可以使用~~moment~~dayjs的unix()方法或者format()方法来得到相应格式的数据。
+当你调用onInitial和onConfirm时，可通过指定mode来获得返回时间的数据格式
 
 ## 如何使用
 可参考src/pages/index/index.jsx的使用方法
