@@ -78,6 +78,7 @@ class Index extends Component {
           indicator-style='height: 50px;'
           value={source.value}
           onChange={this.onChange}
+          style={{width: source.item.length < 4 ? '80%': '100%'}}
         >
           {source.item.map((item, index) => {
             return (

@@ -1,6 +1,7 @@
 .picker-page{
   display: flex;
   flex-direction: column;
+  align-items: center;
   picker-view {
     width: 100%;
     height: 280PX;

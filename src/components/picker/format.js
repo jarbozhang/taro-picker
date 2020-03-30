@@ -19,7 +19,10 @@ const format = (dateTime, dayjs) => {
       const number = getInverval(key)
       res.item.push([...Array(number).keys()]
         .filter(index => index % fields === 0)
-        .filter(index => item.selected && item.selected.includes(index) || true)
+        .filter(index => {
+          if(item.selected) return item.selected.includes(index)
+          else return true
+        })
         .map(index => (key === 'month' ? index + 1 : index) + item.unit))
       res.value.push(item.selected
         ? item.selected.findIndex(value => value === now.get(item.mode))
