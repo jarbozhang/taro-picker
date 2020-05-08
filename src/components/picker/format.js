@@ -6,7 +6,7 @@ const format = (dateTime, dayjs) => {
   dateTime.filter(key => key.selected).map(item => {
     const index = item.selected.findIndex(value => value > now.get(item.mode))
     if (index == -1) {
-      now = now.add(getInverval(item.mode) - now.get(item.mode) + item.selected[0], item.mode)
+      now = now.add(getInverval(item.mode) - now.get(item.mode), item.mode)
     } else {
       now = now.set(item.mode, item.selected[index])
     }
