@@ -1,0 +1,42 @@
+.index{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .section {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    picker-view {
+      width: 100%;
+      height: 560px;
+      picker-view-column {
+        text-align: center;
+        font-size: 26px;
+        view {
+          line-height: 100px;
+        }
+      }
+    }
+  }
+  .handle {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    button {
+      height: 70px;
+      line-height: 70px;
+      font-size: 32px;
+      padding: 0 80px;
+      margin: 0 20px;
+    }
+    .confirm {
+      background-color: #07C160;
+    }
+    .cancel {
+      background-color: #F2F2F2;
+      color: #1AAD19;
+    }
+  }
+}
