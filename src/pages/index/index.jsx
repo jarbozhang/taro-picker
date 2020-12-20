@@ -15,12 +15,12 @@ export default class Index extends Component {
 
   componentDidHide() {}
 
-  handleInitial = (value) => {
-    console.log('initial value: ', value)
+  handleInitial = (value, index) => {
+    console.log('initial value: ', value, ', selected index: ', index)
   }
 
-  handleConfirm = (value) => {
-    console.log('confirm value: ', value)
+  handleConfirm = (value, index) => {
+    console.log('confirm value: ', value, ', selected index: ', index)
   }
 
   handleCancel = () => {
@@ -40,23 +40,21 @@ export default class Index extends Component {
     offset: 设定当前时间点偏移量(常用于设定下一小时或者下一天等)
     */
     const dateTime = [
-    { mode: 'day', duration: 30, unit: '日', humanity: true, format: 'M月D日' },
-    { mode: 'day', duration: 30, unit: '日', humanity: true, format: 'M月D日' },
-    { mode: 'day', duration: 30, unit: '日', humanity: true, format: 'M月D日' },
-    // { mode: 'hour' ,unit: ':00', selected:[8, 12, 16] },
-    
-    // { mode: 'hour', unit: ':00', format: 'H:s', selected: [9, 12] },
-    // { mode: 'hour', unit: '时' },
-    // {mode: 'year', unit: '年', start: '2020'},
-    // {mode: 'month', unit: '月'},
-    // { mode: 'day', duration: 30, unit: '日', humanity: true, format: 'M月D日' },
-    // {mode: 'day', start: '21', duration: 30, unit: '日' },
-    // { mode: 'hour', unit: ':00', format: 'H:s', selected: [8, 12, 16] },
+      { mode: 'year', unit: '年' },
+      { mode: 'month', unit: '月' },
+      { mode: 'day', duration: 30, unit: '日' },
 
-    // { mode: 'minute', fields: 10, unit: '分' },
-    // {mode: 'second', fields: 30, unit: '秒'},
+      // { mode: 'hour', unit: ':00', format: 'H:s', selected: [9, 12] },
+      // { mode: 'hour', unit: '时' },
+      // {mode: 'year', unit: '年' },
+      // {mode: 'month', unit: '月'},
+      // { mode: 'day', duration: 30, unit: '日', humanity: true, format: 'M月D日' },
+      // {mode: 'day', duration: 30, unit: '日' },
+      // { mode: 'hour', unit: ':00', format: 'H:s', selected: [8, 12, 16] },
+      // { mode: 'minute', fields: 10, unit: '分' },
+      // {mode: 'second', fields: 30, unit: '秒'},
     ]
-    
+
     // const dayModel = { mode: 'day', duration: 30, unit: '日', humanity: true, format: 'M月D日', offset: 0 }
     // const hourModel = { mode: 'hour', unit: ':00', format: 'H:s', selected: [8, 9, 10, 11, 12, 13, 14, 15, 16] }
     // const nowHour = dayjs().hour()
@@ -84,7 +82,6 @@ export default class Index extends Component {
     //   ],
     // ][dateIndex]
 
-
     return (
       <View className='index'>
         <Picker
@@ -99,6 +96,8 @@ export default class Index extends Component {
           // 注意如果使用unix时间戳，仅支持传带毫秒的时间戳，同时需要传Number类型，需要使用{}，例如{1318781876406}
           // 可传值参考：https://dayjs.gitee.io/docs/zh-CN/parse/parse
           // start={1318781876406}
+          // value用于指定该组件初始化时默认为第n个数值，支持一纬数组或者二维数组
+          value={[0, 0, 0]}
         />
       </View>
     )

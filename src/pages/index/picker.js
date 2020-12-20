@@ -17,7 +17,7 @@ export default class Index extends Component {
     }
   }
   componentWillMount() {
-    const { dateTime, start } = this.props
+    const { dateTime, start, value: _value } = this.props
     let markMultiDateTime = false
     if (dateTime && Array.isArray(dateTime)) {
       dateTime.map((dateTimeItem) => {
@@ -47,6 +47,7 @@ export default class Index extends Component {
       }
       this.setState((state) => ({ ...state, markMultiDateTime }))
     }
+    _value && this.setState((state) => ({ ...state, ...{ value: markMultiDateTime ? _value : [_value] } }))
   }
 
   componentDidMount() {
@@ -66,14 +67,16 @@ export default class Index extends Component {
   }
 
   onInitial = () => {
+    const { value, markMultiDateTime } = this.state
     const { onInitial, mode } = this.props
     // 根据返回格式(mode)来格式化选中的时间
-    onInitial && onInitial(this.getDayjs(mode))
+    onInitial && onInitial(this.getDayjs(mode), markMultiDateTime ? value : value[0])
   }
 
   onConfirm = () => {
+    const { value, markMultiDateTime } = this.state
     const { onConfirm, mode } = this.props
-    onConfirm && onConfirm(this.getDayjs(mode))
+    onConfirm && onConfirm(this.getDayjs(mode), markMultiDateTime ? value : value[0])
   }
 
   // 根据可选项和当前选择索引返回已选中的时间
